@@ -190,7 +190,10 @@ if not st.session_state.logged_in:
             st.session_state.tabela = user_row["tabela"]
             st.session_state.is_admin = user_row["is_admin"]
             st.success(f"Bem-vindo(a) {st.session_state.user}!")
-            st.experimental_rerun()
+            try:
+                st.rerun()
+            except AttributeError:
+                st.experimental_rerun()
         else:
             st.error("Usuário ou senha incorretos.")
     st.stop()
