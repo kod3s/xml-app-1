@@ -51,8 +51,12 @@ with engine.begin() as conn:
 # ---------------------------
 def get_user(username: str):
     with engine.connect() as conn:
-        res = conn.execute(text("SELECT username, password_hash, tabela, is_admin FROM app_users WHERE username = :u"), {"u": username}).fetchone()
+        res = conn.execute(
+            text("SELECT username, password_hash, tabela, is_admin FROM app_users WHERE username = :u"),
+            {"u": username}
+        ).mappings().fetchone()
         return res
+
 
 def create_user(username: str, password: str, tabela: str, is_admin: bool=False):
     pwd_hash = generate_password_hash(password)
