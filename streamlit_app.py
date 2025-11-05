@@ -27,6 +27,14 @@ db = st.secrets["database"]
 engine = create_engine(
     f"postgresql+psycopg2://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}"
 )
+try:
+    with engine.connect() as conn:
+        conn.execute(text("SELECT 1"))
+    st.sidebar.success("✅ Conexão com banco OK")
+except Exception as e:
+    st.sidebar.error(f"❌ Falha na conexão: {e}")
+    st.stop()
+
 
 # Cria tabela de usuários (controle de login)
 with engine.begin() as conn:
