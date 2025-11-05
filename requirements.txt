@@ -1,7 +1,7 @@
-streamlit>=1.36.0
-pandas
-sqlalchemy
-psycopg2-binary
-altair
-openpyxl
-werkzeug
+streamlit==1.39.0
+pandas==2.2.2
+sqlalchemy==2.0.31
+psycopg2-binary==2.9.9
+altair==5.3.0
+werkzeug==3.0.3
+openpyxl==3.1.2
