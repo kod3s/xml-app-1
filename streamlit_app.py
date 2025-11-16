@@ -14,11 +14,24 @@ st.set_page_config(page_title="CT-e to Excel", layout="wide")
 # ==============================================
 # INSERIR SCRIPT DO GOOGLE ADSENSE
 # ==============================================
-# Adicionando o script do Google AdSense no cabeçalho da página
-st.markdown("""
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3204974273485445" 
-            crossorigin="anonymous"></script>
-    """, unsafe_allow_html=True)
+# Usando st.components.v1.html para incluir o script do Google AdSense
+from streamlit.components.v1 import html
+
+adsense_code = """
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3204974273485445" 
+        crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3204974273485445"
+     data-ad-slot="1234567890"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+"""
+
+# Inserindo o AdSense na página do Streamlit
+html(adsense_code, height=250)
 
 # ==============================================
 # FUNÇÃO: extrair dados do XML
@@ -43,55 +56,3 @@ def extrair_dados_cte(caminho_xml):
             "cidade_origem": root.findtext(".//cte:ide/cte:xMunIni", namespaces=ns),
             "cidade_destino": root.findtext(".//cte:ide/cte:xMunFim", namespaces=ns),
             "quantidade_litros": float(root.findtext(".//cte:infCarga/cte:infQ/cte:qCarga", namespaces=ns) or 0),
-            "valor_frete": float(root.findtext(".//cte:vPrest/cte:vTPrest", namespaces=ns) or 0)
-        }
-    except Exception as e:
-        st.warning(f"Erro ao processar XML: {e}")
-        return None
-
-# ==============================================
-# IMPORTAÇÃO E EXIBIÇÃO DE XMLs
-# ==============================================
-st.title("📦 Importar CT-e para Excel")
-
-arquivos = st.file_uploader("Selecione XMLs", type=["xml"], accept_multiple_files=True)
-
-if arquivos:
-    registros = []
-    for arq in arquivos:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".xml") as tmp:
-            tmp.write(arq.getbuffer())
-            tmp.flush()
-            info = extrair_dados_cte(tmp.name)
-            if info:
-                registros.append(info)
-
-    if registros:
-        # Exibindo os dados extraídos
-        df = pd.DataFrame(registros)
-        st.dataframe(df)
-
-        # Gerar Excel
-        buffer = io.BytesIO()
-        with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
-            df.to_excel(writer, index=False, sheet_name="CTe")
-        
-        # Exibir botão para download do Excel
-        st.download_button("📥 Exportar para Excel", buffer.getvalue(), file_name="cte_exportado.xlsx")
-
-else:
-    st.info("Nenhum arquivo XML foi carregado. Selecione um arquivo para continuar.")
-    
-# ==============================================
-# EXIBIR ANÚNCIO DO GOOGLE ADENSE (pode ser posicionado onde quiser)
-# ==============================================
-st.markdown("""
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-3204974273485445"
-         data-ad-slot="1234567890"
-         data-ad-format="auto"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    """, unsafe_allow_html=True)
