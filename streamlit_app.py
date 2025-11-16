@@ -33,7 +33,7 @@ def extrair_dados_cte(caminho_xml):
             "produto": root.findtext(".//cte:infCarga/cte:proPred", namespaces=ns),
             "cidade_origem": root.findtext(".//cte:ide/cte:xMunIni", namespaces=ns),
             "cidade_destino": root.findtext(".//cte:ide/cte:xMunFim", namespaces=ns),
-            "quantidade_litros": float(root.findtext(".//cte:infCarga/cte:infQ/cte:qCarga", namespaces=ns) or 0),
+            "quantidade": float(root.findtext(".//cte:infCarga/cte:infQ/cte:qCarga", namespaces=ns) or 0),
             "valor_frete": float(root.findtext(".//cte:vPrest/cte:vTPrest", namespaces=ns) or 0)
         }
     except Exception as e:
@@ -43,7 +43,7 @@ def extrair_dados_cte(caminho_xml):
 # ==============================================
 # IMPORTAÇÃO E EXIBIÇÃO DE XMLs
 # ==============================================
-st.title("📦 Importar CT-e para Excel")
+st.title("XML de CT-e para Excel")
 
 arquivos = st.file_uploader("Selecione XMLs", type=["xml"], accept_multiple_files=True)
 
@@ -68,7 +68,7 @@ if arquivos:
             df.to_excel(writer, index=False, sheet_name="CTe")
         
         # Exibir botão para download do Excel
-        st.download_button("📥 Exportar para Excel", buffer.getvalue(), file_name="cte_exportado.xlsx")
+        st.download_button("Exportar para Excel", buffer.getvalue(), file_name="cte_exportado.xlsx")
 
 else:
     st.info("Nenhum arquivo XML foi carregado. Selecione um arquivo para continuar.")
