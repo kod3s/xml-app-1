@@ -12,11 +12,8 @@ import re
 st.set_page_config(page_title="CT-e to Excel", layout="wide")
 
 # ==============================================
-# INSERIR SCRIPT DO GOOGLE ADSENSE
+# INSERIR SCRIPT DO GOOGLE ADSENSE USANDO st.markdown
 # ==============================================
-# Usando st.components.v1.html para incluir o script do Google AdSense
-from streamlit.components.v1 import html
-
 adsense_code = """
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3204974273485445" 
         crossorigin="anonymous"></script>
@@ -30,8 +27,8 @@ adsense_code = """
 </script>
 """
 
-# Inserindo o AdSense na página do Streamlit
-html(adsense_code, height=250)
+# Exibe o código de AdSense na página Streamlit com permissões de HTML
+st.markdown(adsense_code, unsafe_allow_html=True)
 
 # ==============================================
 # FUNÇÃO: extrair dados do XML
@@ -96,7 +93,6 @@ else:
     st.info("Nenhum arquivo XML foi carregado. Selecione um arquivo para continuar.")
     
 # ==============================================
-# EXIBIR ANÚNCIO DO GOOGLE ADENSE (pode ser posicionado onde quiser)
+# EXIBIR ANÚNCIO DO GOOGLE ADENSE NOVAMENTE (em outro local, como rodapé)
 # ==============================================
-# Inserir o anúncio novamente se necessário, pode ser colocado no rodapé ou após a exibição dos dados.
-html(adsense_code, height=250)
+st.markdown(adsense_code, unsafe_allow_html=True)
