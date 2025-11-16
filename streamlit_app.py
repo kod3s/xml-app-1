@@ -12,23 +12,14 @@ import re
 st.set_page_config(page_title="CT-e to Excel", layout="wide")
 
 # ==============================================
-# INSERIR SCRIPT DO GOOGLE ADSENSE USANDO st.markdown
+# INSERIR META TAG DO GOOGLE ADSENSE NO HEAD
 # ==============================================
-adsense_code = """
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3204974273485445" 
-        crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3204974273485445"
-     data-ad-slot="1234567890"
-     data-ad-format="auto"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+adsense_meta_tag = """
+<meta name="google-adsense-account" content="ca-pub-3204974273485445">
 """
 
-# Exibe o código de AdSense na página Streamlit com permissões de HTML
-st.markdown(adsense_code, unsafe_allow_html=True)
+# Exibe a meta tag na página Streamlit (inserção no cabeçalho)
+st.markdown(adsense_meta_tag, unsafe_allow_html=True)
 
 # ==============================================
 # FUNÇÃO: extrair dados do XML
@@ -92,7 +83,3 @@ if arquivos:
 else:
     st.info("Nenhum arquivo XML foi carregado. Selecione um arquivo para continuar.")
     
-# ==============================================
-# EXIBIR ANÚNCIO DO GOOGLE ADENSE NOVAMENTE (em outro local, como rodapé)
-# ==============================================
-st.markdown(adsense_code, unsafe_allow_html=True)
