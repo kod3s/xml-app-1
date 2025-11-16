@@ -5,7 +5,8 @@ from datetime import datetime
 import tempfile
 import io
 import re
-
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3204974273485445"
+     crossorigin="anonymous"></script>
 # ==============================================
 # CONFIGURAÇÃO INICIAL
 # ==============================================
